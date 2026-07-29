@@ -1,6 +1,27 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+
+async function findStandalonePage() {
+  let directory = dirname(fileURLToPath(import.meta.url));
+
+  while (true) {
+    const candidate = join(directory, 'Jiang-Hao-个人网站.html');
+
+    try {
+      await access(candidate);
+      return candidate;
+    } catch {
+      const parent = dirname(directory);
+      if (parent === directory) {
+        throw new Error('Could not find Jiang-Hao-个人网站.html above the test directory');
+      }
+      directory = parent;
+    }
+  }
+}
 
 test('profile card CSS is not rendered as page text', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
@@ -53,10 +74,7 @@ test('mobile portfolio uses a center-only drag handle and keeps vertical scrolli
 });
 
 test('standalone page includes the same mobile portfolio drag gate', async () => {
-  const standalone = await readFile(
-    new URL('../../../../Jiang-Hao-个人网站.html', import.meta.url),
-    'utf8'
-  );
+  const standalone = await readFile(await findStandalonePage(), 'utf8');
 
   assert.match(standalone, /data-mobile-portfolio-drag-handle/);
   assert.match(standalone, /id="mobile-portfolio-drag-hit-area"/);
