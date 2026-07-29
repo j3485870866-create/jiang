@@ -3383,9 +3383,15 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
         height: 100%;
         object-fit: cover;
         object-position: center;
-        pointer-events: none;
+        pointer-events: none !important;
         user-select: none;
         -webkit-user-drag: none;
+      }
+      #about .portrait-stack,
+      #about .portrait-stack-card,
+      #about .portrait-placeholder {
+        -webkit-touch-callout: none !important;
+        user-select: none;
       }
       #about .portrait-stack-card[data-card-id="1"] img {
         object-position: center calc(50% + 5rem);
@@ -4278,6 +4284,17 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
         object-position: center !important;
         border-radius: inherit !important;
         transform: none !important;
+        pointer-events: none !important;
+        user-select: none !important;
+        -webkit-user-drag: none !important;
+        -webkit-touch-callout: none !important;
+      }
+
+      #about .portrait-stack,
+      #about .portrait-stack-card,
+      #about .portrait-placeholder {
+        -webkit-touch-callout: none !important;
+        user-select: none !important;
       }
     }
   </style>

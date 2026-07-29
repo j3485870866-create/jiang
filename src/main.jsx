@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { installAboutPhotoDragGuard } from './aboutPhotoDragGuard.js';
 import { installMobilePortfolioDragGate } from './mobilePortfolioDragGate.js';
 
 function ViteRuntime() {
@@ -11,6 +12,8 @@ const runtimeMount = document.querySelector('#react-vite-runtime');
 if (runtimeMount) {
   createRoot(runtimeMount).render(<ViteRuntime />);
 }
+
+installAboutPhotoDragGuard(document.querySelector('#about [data-card-stack], #about .portrait-stack'));
 
 installMobilePortfolioDragGate({
   gallery: document.querySelector('.infinite-menu'),
