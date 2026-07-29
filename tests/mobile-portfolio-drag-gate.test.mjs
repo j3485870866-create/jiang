@@ -15,24 +15,26 @@ test('center hit circle uses the expanded 64 percent diameter', () => {
   assert.equal(isInsideCenteredCircle({ x: 329, y: 300 }, rect), false);
 });
 
-test('default six pixel threshold activates horizontal dragging quickly', () => {
+test('movement over the threshold starts dragging in every direction', () => {
+  const movements = [
+    { name: 'right', point: { x: 207, y: 300 } },
+    { name: 'down', point: { x: 200, y: 307 } },
+    { name: 'diagonal', point: { x: 205, y: 305 } }
+  ];
+
+  for (const { name, point } of movements) {
+    const decision = createMobileDragDecision();
+    decision.begin({ x: 200, y: 300 });
+    assert.equal(decision.move(point), 'dragging', name);
+    assert.equal(decision.move({ x: 20, y: 20 }), 'dragging', `${name} remains locked`);
+  }
+});
+
+test('movement below six pixels remains pending', () => {
   const decision = createMobileDragDecision();
 
   decision.begin({ x: 200, y: 300 });
   assert.equal(decision.move({ x: 204, y: 302 }), 'pending');
-  assert.equal(decision.move({ x: 207, y: 302 }), 'horizontal');
-  assert.equal(decision.move({ x: 390, y: 20 }), 'horizontal');
-
-  decision.end();
-  assert.equal(decision.move({ x: 390, y: 20 }), 'pending');
-});
-
-test('vertical movement cancels the drag candidate', () => {
-  const decision = createMobileDragDecision({ threshold: 12 });
-
-  decision.begin({ x: 200, y: 300 });
-  assert.equal(decision.move({ x: 204, y: 316 }), 'vertical');
-  assert.equal(decision.move({ x: 230, y: 320 }), 'vertical');
 });
 
 function createPointerTarget() {
@@ -118,7 +120,7 @@ test('accepted horizontal drag is forwarded until release, even outside the cent
   cleanup();
 });
 
-test('vertical movement inside the center does not rotate the gallery', () => {
+test('vertical dragging is forwarded to the gallery until release', () => {
   const gallery = {
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 400, height: 600 })
   };
@@ -133,8 +135,15 @@ test('vertical movement inside the center does not rotate the gallery', () => {
   });
 
   handle.emit('pointerdown', { clientX: 200, clientY: 300 });
-  const verticalMove = handle.emit('pointermove', { clientX: 204, clientY: 318 });
+  const activation = handle.emit('pointermove', { clientX: 200, clientY: 307 });
+  handle.emit('pointermove', { clientX: 202, clientY: 390 });
+  handle.emit('pointerup', { clientX: 202, clientY: 390, buttons: 0 });
 
-  assert.equal(canvas.events.length, 0);
-  assert.equal(verticalMove.type, 'pointermove');
+  assert.deepEqual(canvas.events.map(({ type }) => type), [
+    'pointerdown',
+    'pointermove',
+    'pointermove',
+    'pointerup'
+  ]);
+  assert.equal(activation.defaultPrevented, true);
 });
