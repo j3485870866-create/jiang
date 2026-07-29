@@ -1,4 +1,4 @@
-export function isInsideCenteredCircle(point, rect, diameterRatio = 0.56) {
+export function isInsideCenteredCircle(point, rect, diameterRatio = 0.64) {
   const diameter = Math.min(rect.width, rect.height) * diameterRatio;
   const radius = diameter / 2;
   const centerX = rect.left + rect.width / 2;
@@ -7,7 +7,7 @@ export function isInsideCenteredCircle(point, rect, diameterRatio = 0.56) {
   return Math.hypot(point.x - centerX, point.y - centerY) <= radius;
 }
 
-export function createMobileDragDecision({ threshold = 12 } = {}) {
+export function createMobileDragDecision({ threshold = 6 } = {}) {
   let start = null;
   let state = 'pending';
 
@@ -66,8 +66,8 @@ export function installMobilePortfolioDragGate({
   handle,
   mediaQuery,
   createPointerEvent = defaultCreatePointerEvent,
-  diameterRatio = 0.56,
-  threshold = 12
+  diameterRatio = 0.64,
+  threshold = 6
 } = {}) {
   if (!gallery || !canvas || !handle || !mediaQuery) return () => {};
 
