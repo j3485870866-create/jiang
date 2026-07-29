@@ -36,3 +36,13 @@ test('mobile portfolio labels sit on opposite sides of the gallery center', asyn
     'mobile active title and description must be anchored to opposite sides'
   );
 });
+
+test('mobile contact ray canvas exactly fills its fractional container', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+
+  assert.match(
+    html,
+    /id="mobile-contact-ray-edge-fix"[\s\S]*@media \(max-width: 760px\)[\s\S]*#contact \.contact-side-rays canvas[\s\S]*width:\s*100%\s*!important[\s\S]*height:\s*100%\s*!important/,
+    'the mobile WebGL canvas must not overflow its fractional contact section'
+  );
+});

@@ -4312,6 +4312,14 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
       }
     }
   </style>
+  <style id="mobile-contact-ray-edge-fix">
+    @media (max-width: 760px) {
+      #contact .contact-side-rays canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
+  </style>
   <div id="react-vite-runtime" hidden></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
