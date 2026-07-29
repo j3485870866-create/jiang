@@ -4377,6 +4377,34 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
       }
     }
   </style>
+  <style id="mobile-balanced-motion">
+    @media (max-width: 760px) {
+      html[data-mobile-motion-tier="balanced"] section:not([data-mobile-motion-active]) *,
+      html[data-mobile-motion-tier="balanced"][data-mobile-page-visible="false"] * {
+        animation-play-state: paused !important;
+      }
+
+      [data-mobile-interactive] {
+        -webkit-tap-highlight-color: transparent;
+        outline: 1px solid transparent;
+        outline-offset: 0;
+        transition:
+          outline-color 180ms ease,
+          outline-offset 180ms ease;
+      }
+
+      [data-mobile-interactive].is-mobile-pressed {
+        outline-color: rgb(132 213 157 / 72%);
+        outline-offset: 3px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-mobile-interactive] {
+        transition: none !important;
+      }
+    }
+  </style>
   <div id="react-vite-runtime" hidden></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>

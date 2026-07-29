@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { installMobileMotionBudget } from '../src/mobileMotionBudget.js';
+import {
+  installMobileMotionBudget,
+  markMobileInteractive
+} from '../src/mobileMotionBudget.js';
 
 class FakeEventTarget {
   constructor() {
@@ -190,4 +193,21 @@ test('reduced motion leaves mobile enhancements disabled', () => {
   });
 
   assert.equal('mobileMotionTier' in root.dataset, false);
+});
+
+test('interactive marking is limited to the explicitly selected safe elements', () => {
+  const safeCard = new FakeElement();
+  const safeButton = new FakeElement();
+  const dragOnlyPhoto = new FakeElement();
+
+  const cleanup = markMobileInteractive([safeCard, safeButton]);
+
+  assert.equal(safeCard.dataset.mobileInteractive, 'true');
+  assert.equal(safeButton.dataset.mobileInteractive, 'true');
+  assert.equal('mobileInteractive' in dragOnlyPhoto.dataset, false);
+
+  cleanup();
+
+  assert.equal('mobileInteractive' in safeCard.dataset, false);
+  assert.equal('mobileInteractive' in safeButton.dataset, false);
 });

@@ -12,6 +12,20 @@ function setPressedPosition(element, clientX, clientY) {
   element.style.setProperty('--mobile-tap-y', `${Number(y.toFixed(2))}%`);
 }
 
+export function markMobileInteractive(elements = []) {
+  const marked = [...elements].filter(Boolean);
+  marked.forEach((element) => {
+    element.dataset.mobileInteractive = 'true';
+  });
+
+  return () => {
+    marked.forEach((element) => {
+      element.classList.remove('is-mobile-pressed');
+      delete element.dataset.mobileInteractive;
+    });
+  };
+}
+
 export function installMobileMotionBudget({
   root,
   documentTarget,
