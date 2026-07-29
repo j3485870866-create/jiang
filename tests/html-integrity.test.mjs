@@ -37,6 +37,33 @@ test('mobile portfolio labels sit on opposite sides of the gallery center', asyn
   );
 });
 
+test('mobile portfolio uses a center-only drag handle and keeps vertical scrolling', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+
+  assert.match(
+    html,
+    /data-mobile-portfolio-drag-handle/,
+    'the mobile gallery must expose a dedicated center drag handle'
+  );
+  assert.match(
+    html,
+    /id="mobile-portfolio-drag-hit-area"[\s\S]*@media \(max-width: 760px\)[\s\S]*touch-action:\s*pan-y[\s\S]*border-radius:\s*50%/,
+    'the mobile handle must preserve vertical scrolling and remain circular'
+  );
+});
+
+test('standalone page includes the same mobile portfolio drag gate', async () => {
+  const standalone = await readFile(
+    new URL('../../../../Jiang-Hao-个人网站.html', import.meta.url),
+    'utf8'
+  );
+
+  assert.match(standalone, /data-mobile-portfolio-drag-handle/);
+  assert.match(standalone, /id="mobile-portfolio-drag-hit-area"/);
+  assert.match(standalone, /threshold\s*=\s*12/);
+  assert.match(standalone, /pointercancel/);
+});
+
 test('mobile contact ray canvas exactly fills its fractional container', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 

@@ -860,6 +860,7 @@ window.__initInfiniteMenu = We;
         <div class="infinite-menu" data-infinite-menu aria-label="可拖拽的球形个人图片画廊">
           <h2 class="infinite-menu-section-title">我的作品集</h2>
           <canvas id="infinite-grid-menu-canvas" data-infinite-menu-canvas></canvas>
+          <div data-mobile-portfolio-drag-handle aria-hidden="true"></div>
           <h3 class="infinite-menu-active-title" data-infinite-menu-title>在实践里成长</h3>
           <p class="infinite-menu-active-description" data-infinite-menu-description>进入跨境电商实习阶段，持续积累真实经验。</p>
         </div>
@@ -4309,6 +4310,32 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
       #journey .infinite-menu[data-moving="true"] .infinite-menu-active-title,
       #journey .infinite-menu[data-moving="true"] .infinite-menu-active-description {
         transform: translateY(calc(-50% + 8px));
+      }
+    }
+  </style>
+  <style id="mobile-portfolio-drag-hit-area">
+    [data-mobile-portfolio-drag-handle] {
+      display: none;
+    }
+
+    @media (max-width: 760px) {
+      #infinite-grid-menu-canvas {
+        pointer-events: none;
+        touch-action: pan-y !important;
+      }
+
+      [data-mobile-portfolio-drag-handle] {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 3;
+        display: block;
+        width: min(56vw, 56vh);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: transparent;
+        touch-action: pan-y;
+        transform: translate(-50%, -50%);
       }
     }
   </style>
