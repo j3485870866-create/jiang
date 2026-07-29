@@ -81,6 +81,7 @@ test('standalone page includes the same mobile portfolio drag gate', async () =>
   assert.match(standalone, /width:\s*min\(64vw,\s*64vh\)/);
   assert.match(standalone, /threshold\s*=\s*6/);
   assert.match(standalone, /diameterRatio\s*=\s*0\.64/);
+  assert.match(standalone, /state\s*=\s*['"]dragging['"]/);
   assert.match(standalone, /pointercancel/);
 });
 

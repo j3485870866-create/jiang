@@ -18,15 +18,14 @@ export function createMobileDragDecision({ threshold = 6 } = {}) {
     },
 
     move(point) {
-      if (!start || state === 'vertical') return state;
-      if (state === 'horizontal') return state;
+      if (!start || state === 'dragging') return state;
 
       const deltaX = point.x - start.x;
       const deltaY = point.y - start.y;
 
       if (Math.hypot(deltaX, deltaY) < threshold) return 'pending';
 
-      state = Math.abs(deltaX) > Math.abs(deltaY) ? 'horizontal' : 'vertical';
+      state = 'dragging';
       return state;
     },
 
@@ -113,8 +112,7 @@ export function installMobilePortfolioDragGate({
     if (event.pointerId !== candidatePointerId) return;
 
     const state = decision.move({ x: event.clientX, y: event.clientY });
-    if (state === 'vertical') return;
-    if (state !== 'horizontal') return;
+    if (state !== 'dragging') return;
 
     if (!forwarding) {
       forwarding = true;
