@@ -58,7 +58,7 @@ test('mobile portfolio labels sit on opposite sides of the gallery center', asyn
   );
 });
 
-test('mobile portfolio uses a center-only drag handle and keeps vertical scrolling', async () => {
+test('mobile portfolio center handle owns gestures without moving the page', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 
   assert.match(
@@ -68,8 +68,8 @@ test('mobile portfolio uses a center-only drag handle and keeps vertical scrolli
   );
   assert.match(
     html,
-    /id="mobile-portfolio-drag-hit-area"[\s\S]*@media \(max-width: 760px\)[\s\S]*touch-action:\s*pan-y[\s\S]*border-radius:\s*50%/,
-    'the mobile handle must preserve vertical scrolling and remain circular'
+    /id="mobile-portfolio-drag-hit-area"[\s\S]*@media \(max-width: 760px\)[\s\S]*width:\s*min\(64vw,\s*64vh\)[\s\S]*touch-action:\s*none/,
+    'the expanded mobile handle must own its touch gestures'
   );
 });
 
@@ -78,7 +78,9 @@ test('standalone page includes the same mobile portfolio drag gate', async () =>
 
   assert.match(standalone, /data-mobile-portfolio-drag-handle/);
   assert.match(standalone, /id="mobile-portfolio-drag-hit-area"/);
-  assert.match(standalone, /threshold\s*=\s*12/);
+  assert.match(standalone, /width:\s*min\(64vw,\s*64vh\)/);
+  assert.match(standalone, /threshold\s*=\s*6/);
+  assert.match(standalone, /diameterRatio\s*=\s*0\.64/);
   assert.match(standalone, /pointercancel/);
 });
 

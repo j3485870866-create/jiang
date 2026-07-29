@@ -7,20 +7,20 @@ import {
   isInsideCenteredCircle
 } from '../src/mobilePortfolioDragGate.js';
 
-test('center hit circle includes a 12 percent expansion and rejects outside starts', () => {
+test('center hit circle uses the expanded 64 percent diameter', () => {
   const rect = { left: 0, top: 0, width: 400, height: 600 };
 
-  assert.equal(isInsideCenteredCircle({ x: 200, y: 300 }, rect, 0.56), true);
-  assert.equal(isInsideCenteredCircle({ x: 311, y: 300 }, rect, 0.56), true);
-  assert.equal(isInsideCenteredCircle({ x: 313, y: 300 }, rect, 0.56), false);
+  assert.equal(isInsideCenteredCircle({ x: 200, y: 300 }, rect), true);
+  assert.equal(isInsideCenteredCircle({ x: 327, y: 300 }, rect), true);
+  assert.equal(isInsideCenteredCircle({ x: 329, y: 300 }, rect), false);
 });
 
-test('horizontal movement activates dragging and remains active outside the start area', () => {
-  const decision = createMobileDragDecision({ threshold: 12 });
+test('default six pixel threshold activates horizontal dragging quickly', () => {
+  const decision = createMobileDragDecision();
 
   decision.begin({ x: 200, y: 300 });
-  assert.equal(decision.move({ x: 205, y: 303 }), 'pending');
-  assert.equal(decision.move({ x: 218, y: 304 }), 'horizontal');
+  assert.equal(decision.move({ x: 204, y: 302 }), 'pending');
+  assert.equal(decision.move({ x: 207, y: 302 }), 'horizontal');
   assert.equal(decision.move({ x: 390, y: 20 }), 'horizontal');
 
   decision.end();
@@ -118,7 +118,7 @@ test('accepted horizontal drag is forwarded until release, even outside the cent
   cleanup();
 });
 
-test('vertical movement inside the center is not forwarded or prevented', () => {
+test('vertical movement inside the center does not rotate the gallery', () => {
   const gallery = {
     getBoundingClientRect: () => ({ left: 0, top: 0, width: 400, height: 600 })
   };
@@ -136,5 +136,5 @@ test('vertical movement inside the center is not forwarded or prevented', () => 
   const verticalMove = handle.emit('pointermove', { clientX: 204, clientY: 318 });
 
   assert.equal(canvas.events.length, 0);
-  assert.equal(verticalMove.defaultPrevented, undefined);
+  assert.equal(verticalMove.type, 'pointermove');
 });
