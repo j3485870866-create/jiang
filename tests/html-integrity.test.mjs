@@ -46,3 +46,23 @@ test('mobile contact ray canvas exactly fills its fractional container', async (
     'the mobile WebGL canvas must not overflow its fractional contact section'
   );
 });
+
+test('mobile contact rays fade in instead of creating a hard section boundary', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+
+  assert.match(
+    html,
+    /id="mobile-contact-ray-edge-fix"[\s\S]*@media \(max-width: 760px\)[\s\S]*#contact \.contact-side-rays\s*{[\s\S]*-webkit-mask-image:\s*linear-gradient\(to bottom,\s*transparent 0%,\s*#000 22%\)[\s\S]*mask-image:\s*linear-gradient\(to bottom,\s*transparent 0%,\s*#000 22%\)/,
+    'the mobile contact background must blend smoothly from the preceding black section'
+  );
+});
+
+test('mobile hero rays fade out before the second section', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+
+  assert.match(
+    html,
+    /id="mobile-section-ray-transitions"[\s\S]*@media \(max-width: 760px\)[\s\S]*#home \[data-side-rays\][\s\S]*mask-image:\s*linear-gradient\(to bottom,\s*#000 0%,\s*#000 78%,\s*transparent 100%\)/,
+    'the mobile hero background must blend into black before the second section'
+  );
+});

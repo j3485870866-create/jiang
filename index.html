@@ -4314,9 +4314,22 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
   </style>
   <style id="mobile-contact-ray-edge-fix">
     @media (max-width: 760px) {
+      #contact .contact-side-rays {
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+        mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+      }
+
       #contact .contact-side-rays canvas {
         width: 100% !important;
         height: 100% !important;
+      }
+    }
+  </style>
+  <style id="mobile-section-ray-transitions">
+    @media (max-width: 760px) {
+      #home [data-side-rays] {
+        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+        mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
       }
     }
   </style>
