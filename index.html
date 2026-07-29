@@ -4247,6 +4247,39 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
   <script type="module">
     window.__initSideRays?.(document.querySelector("[data-contact-side-rays]"));
   </script>
+  <style id="mobile-edge-fixes">
+    @media (max-width: 760px) {
+      html {
+        scrollbar-color: #444 #000;
+      }
+
+      html::-webkit-scrollbar {
+        width: 0.65rem;
+        background: #000;
+      }
+
+      html::-webkit-scrollbar-track,
+      html::-webkit-scrollbar-corner {
+        background: #000;
+      }
+
+      #about .portrait-placeholder.has-photo {
+        background: #000 !important;
+        box-shadow: none !important;
+      }
+
+      #about .portrait-placeholder.has-photo img {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        border-radius: inherit !important;
+        transform: none !important;
+      }
+    }
+  </style>
   <div id="react-vite-runtime" hidden></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
