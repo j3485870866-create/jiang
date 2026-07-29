@@ -52,8 +52,8 @@ test('mobile contact rays fade in instead of creating a hard section boundary', 
 
   assert.match(
     html,
-    /id="mobile-contact-ray-edge-fix"[\s\S]*@media \(max-width: 760px\)[\s\S]*#contact \.contact-side-rays\s*{[\s\S]*-webkit-mask-image:\s*linear-gradient\(to bottom,\s*transparent 0%,\s*#000 22%\)[\s\S]*mask-image:\s*linear-gradient\(to bottom,\s*transparent 0%,\s*#000 22%\)/,
-    'the mobile contact background must blend smoothly from the preceding black section'
+    /id="mobile-contact-ray-edge-fix"[\s\S]*@media \(max-width: 760px\)[\s\S]*#contact \.contact-side-rays\s*{[\s\S]*-webkit-mask-image:\s*linear-gradient\(to bottom,\s*#000 0%,\s*#000 52%,\s*transparent 100%\)[\s\S]*mask-image:\s*linear-gradient\(to bottom,\s*#000 0%,\s*#000 52%,\s*transparent 100%\)/,
+    'the vertically flipped mobile contact background must fade at its visual top edge'
   );
 });
 
@@ -62,7 +62,7 @@ test('mobile hero rays fade out before the second section', async () => {
 
   assert.match(
     html,
-    /id="mobile-section-ray-transitions"[\s\S]*@media \(max-width: 760px\)[\s\S]*#home \[data-side-rays\][\s\S]*mask-image:\s*linear-gradient\(to bottom,\s*#000 0%,\s*#000 78%,\s*transparent 100%\)/,
+    /id="mobile-section-ray-transitions"[\s\S]*@media \(max-width: 760px\)[\s\S]*#home \[data-side-rays\][\s\S]*mask-image:\s*linear-gradient\(to bottom,\s*#000 0%,\s*#000 52%,\s*transparent 100%\)/,
     'the mobile hero background must blend into black before the second section'
   );
 });
