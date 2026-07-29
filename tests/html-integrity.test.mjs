@@ -26,3 +26,13 @@ test('mobile portraits cover their frames and the scrollbar track blends into th
     'the mobile scrollbar track must blend into the black page'
   );
 });
+
+test('mobile portfolio labels sit on opposite sides of the gallery center', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+
+  assert.match(
+    html,
+    /id="mobile-portfolio-side-labels"[\s\S]*@media \(max-width: 760px\)[\s\S]*infinite-menu-active-title[\s\S]*top:\s*50%[\s\S]*left:\s*clamp\([\s\S]*infinite-menu-active-description[\s\S]*right:\s*clamp\(/,
+    'mobile active title and description must be anchored to opposite sides'
+  );
+});

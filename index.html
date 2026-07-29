@@ -4280,6 +4280,38 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
       }
     }
   </style>
+  <style id="mobile-portfolio-side-labels">
+    @media (max-width: 760px) {
+      #journey .infinite-menu-active-title,
+      #journey .infinite-menu-active-description {
+        top: 50%;
+        bottom: auto;
+        z-index: 3;
+        transform: translateY(-50%);
+      }
+
+      #journey .infinite-menu-active-title {
+        left: clamp(0.75rem, 4vw, 1.25rem);
+        width: clamp(4.75rem, 24vw, 6.5rem);
+        font-size: clamp(1.35rem, 7vw, 2rem);
+        line-height: 1;
+        text-align: left;
+      }
+
+      #journey .infinite-menu-active-description {
+        right: clamp(0.75rem, 4vw, 1.25rem);
+        width: clamp(5.5rem, 28vw, 7.5rem);
+        font-size: clamp(0.68rem, 3.4vw, 0.88rem);
+        line-height: 1.45;
+        text-align: right;
+      }
+
+      #journey .infinite-menu[data-moving="true"] .infinite-menu-active-title,
+      #journey .infinite-menu[data-moving="true"] .infinite-menu-active-description {
+        transform: translateY(calc(-50% + 8px));
+      }
+    }
+  </style>
   <div id="react-vite-runtime" hidden></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
