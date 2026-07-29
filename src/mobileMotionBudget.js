@@ -1,5 +1,11 @@
 const INTERACTIVE_SELECTOR = '[data-mobile-interactive]';
 
+export function getCanvasMotionBudget({ coarsePointer = false } = {}) {
+  return coarsePointer
+    ? { fps: 30, maximumDpr: 1.5 }
+    : { fps: 60, maximumDpr: 2 };
+}
+
 function clamp(value, minimum, maximum) {
   return Math.min(Math.max(value, minimum), maximum);
 }

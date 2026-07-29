@@ -3870,7 +3870,9 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
       -webkit-user-select: none;
     }
   </style>
-  <script id="contact-fuzzy-text-controller">
+  <script type="module" id="contact-fuzzy-text-controller">
+    import { getCanvasMotionBudget } from '/src/mobileMotionBudget.js';
+
     (() => {
       const initContactFuzzyText = () => {
         const canvas = document.querySelector('[data-contact-fuzzy-text]');
@@ -3886,7 +3888,10 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
         const baseIntensity = 0.18;
         const hoverIntensity = 0.5;
         const fuzzRange = 30;
-        const fps = 60;
+        const coarsePointerQuery = window.matchMedia('(pointer: coarse)');
+        const { fps, maximumDpr } = getCanvasMotionBudget({
+          coarsePointer: coarsePointerQuery.matches
+        });
         const frameDuration = 1000 / fps;
         const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -3907,7 +3912,7 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
         const renderFrame = intensity => {
           if (!offscreen || !offscreenWidth || !tightHeight) return;
 
-          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const dpr = Math.min(window.devicePixelRatio || 1, maximumDpr);
           context.setTransform(dpr, 0, 0, dpr, 0, 0);
           context.clearRect(0, 0, logicalWidth, tightHeight);
           context.save();
@@ -3977,7 +3982,7 @@ void main(){vec2 focalPx=uFocal*uResolution.xy;vec2 uv=(vUv*uResolution.xy-focal
           }
 
           logicalWidth = offscreenWidth + horizontalMargin * 2;
-          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const dpr = Math.min(window.devicePixelRatio || 1, maximumDpr);
           canvas.width = Math.ceil(logicalWidth * dpr);
           canvas.height = Math.ceil(tightHeight * dpr);
           canvas.style.width = `${logicalWidth}px`;

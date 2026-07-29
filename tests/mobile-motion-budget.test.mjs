@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  getCanvasMotionBudget,
   installMobileMotionBudget,
   markMobileInteractive
 } from '../src/mobileMotionBudget.js';
@@ -210,4 +211,15 @@ test('interactive marking is limited to the explicitly selected safe elements', 
 
   assert.equal('mobileInteractive' in safeCard.dataset, false);
   assert.equal('mobileInteractive' in safeButton.dataset, false);
+});
+
+test('coarse mobile pointers use a cheaper canvas budget than desktop pointers', () => {
+  assert.deepEqual(
+    getCanvasMotionBudget({ coarsePointer: true }),
+    { fps: 30, maximumDpr: 1.5 }
+  );
+  assert.deepEqual(
+    getCanvasMotionBudget({ coarsePointer: false }),
+    { fps: 60, maximumDpr: 2 }
+  );
 });
